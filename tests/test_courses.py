@@ -1,46 +1,20 @@
 import pytest
-from playwright.sync_api import sync_playwright, expect
+from playwright.sync_api import expect
 
 
 @pytest.mark.regression
 @pytest.mark.courses
-def test_empty_courses_list():
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
+def test_empty_courses_list(chromium_page_with_state):
 
-        context = browser.new_context()
+    chromium_page_with_state.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
 
-        page = context.new_page()
+    courses_toolbar = chromium_page_with_state.get_by_test_id('courses-list-toolbar-title-text')
+    expect(courses_toolbar).not_to_be_disabled()
+    expect(courses_toolbar).to_have_text("Courses")
 
-        page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
+    courses_title = chromium_page_with_state.get_by_test_id('courses-list-empty-view-title-text')
+    expect(courses_title).not_to_be_disabled()
+    expect(courses_title).to_have_text("There is no results")
 
-        email_input = page.get_by_test_id('registration-form-email-input').locator('input')
-        email_input.fill('user.name@gmail.com')
+    chromium_page_with_state.wait_for_timeout(5000)
 
-        username_input = page.get_by_test_id('registration-form-username-input').locator('input')
-        username_input.fill('username')
-
-        password_input = page.get_by_test_id('registration-form-password-input').locator('input')
-        password_input.fill('password')
-
-        registration_button = page.get_by_test_id('registration-page-registration-button')
-        registration_button.click()
-
-        context.storage_state(path="browser-state.json")
-
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
-        context = browser.new_context(storage_state="browser-state.json")  # Указываем файл с сохраненным состоянием
-        page = context.new_page()
-
-        page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
-
-        courses_toolbar = page.get_by_test_id('courses-list-toolbar-title-text')
-        expect(courses_toolbar).not_to_be_disabled()
-        expect(courses_toolbar).to_have_text("Courses")
-
-        courses_title = page.get_by_test_id('courses-list-empty-view-title-text')
-        expect(courses_title).not_to_be_disabled()
-        expect(courses_title).to_have_text("There is no results")
-
-        page.wait_for_timeout(5000)
