@@ -51,3 +51,30 @@ class CoursesListPage(BasePage):
 
         def click_create_course_button(self):
             self.create_course_button.click()
+
+
+
+        def check_visible_course_card(
+                self,
+                index: int,  # Индекс карточки в списке курсов
+                title: str,  # Ожидаемый заголовок курса
+                max_score: str,  # Ожидаемый максимальный балл
+                min_score: str,  # Ожидаемый минимальный балл
+                estimated_time: str  # Ожидаемое время прохождения
+        ):
+            expect(self.course_image.nth(index)).to_be_visible()
+
+            # Обратите внимание на использование метода nth, он позволяет получить локатор по индексу
+            expect(self.course_title.nth(index)).to_be_visible()
+            expect(self.course_title.nth(index)).to_have_text(title)
+
+            expect(self.course_max_score_text.nth(index)).to_be_visible()
+            expect(self.course_max_score_text.nth(index)).to_have_text(f"Max score: {max_score}")
+
+            expect(self.course_min_score_text.nth(index)).to_be_visible()
+            expect(self.course_min_score_text.nth(index)).to_have_text(f"Min score: {min_score}")
+
+            expect(self.course_estimated_time_text.nth(index)).to_be_visible()
+            expect(self.course_estimated_time_text.nth(index)).to_have_text(
+                f"Estimated time: {estimated_time}"
+            )
