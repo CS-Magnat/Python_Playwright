@@ -78,3 +78,16 @@ class CoursesListPage(BasePage):
             expect(self.course_estimated_time_text.nth(index)).to_have_text(
                 f"Estimated time: {estimated_time}"
             )
+
+        def click_edit_course(self, index: int):
+            self.course_menu_button.nth(index).click()
+
+            # После нажатия на кнопку меню обязательно проверяем, что меню открылась и меню айтем виден
+            expect(self.course_edit_menu_item.nth(index)).to_be_visible()
+            self.course_edit_menu_item.nth(index).click()
+
+        def click_delete_course(self, index: int):
+            self.course_menu_button.nth(index).click()
+
+            expect(self.course_delete_menu_item.nth(index)).to_be_visible()
+            self.course_delete_menu_item.nth(index).click()
