@@ -172,3 +172,35 @@ class CreateCoursePage(BasePage):
         expect(self.exercises_empty_view_description).to_have_text(
             'Click on "Create exercise" button to create new exercise'
         )
+
+    def click_delete_exercise_button(self, index: int):
+        # Обратите внимание, что локатор инициализируется непосредственно в методе.
+        # Это временное решение, так как с классическим подходом POM сложно работать с динамическими локаторами.
+        # В текущей реализации мы не можем заранее объявить локатор на уровне класса, поскольку его значение
+        # зависит от переданного индекса.
+        # В дальнейшем мы будем использовать паттерн PageFactory для более удобной обработки таких случаев
+        # и динамических элементов на странице.
+        delete_exercise_button = self.page.get_by_test_id(
+            f"create-course-exercise-{index}-box-toolbar-delete-exercise-button"
+        )
+        delete_exercise_button.click()
+
+    def check_visible_create_exercise_form(self, index: int, title: str, description: str):
+        exercise_subtitle = self.page.get_by_test_id(
+            f"create-course-exercise-{index}-box-toolbar-subtitle-text"
+        )
+        exercise_title_input = self.page.get_by_test_id(
+            f"create-course-exercise-form-title-{index}-input"
+        )
+        exercise_description_input = self.page.get_by_test_id(
+            f"create-course-exercise-form-description-{index}-input"
+        )
+
+        expect(exercise_subtitle).to_be_visible()
+        expect(exercise_subtitle).to_have_text(f"#{index + 1} Exercise")
+
+        expect(exercise_title_input).to_be_visible()
+        expect(exercise_title_input).to_have_value(title)
+
+        expect(exercise_description_input).to_be_visible()
+        expect(exercise_description_input).to_have_value(description)
