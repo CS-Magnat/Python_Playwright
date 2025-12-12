@@ -204,3 +204,17 @@ class CreateCoursePage(BasePage):
 
         expect(exercise_description_input).to_be_visible()
         expect(exercise_description_input).to_have_value(description)
+
+    def fill_create_exercise_form(self, index: int, title: str, description: str):
+        exercise_title_input = self.page.get_by_test_id(
+            f"create-course-exercise-form-title-{index}-input"
+        )
+        exercise_description_input = self.page.get_by_test_id(
+            f"create-course-exercise-form-description-{index}-input"
+        )
+
+        exercise_title_input.fill(title)
+        expect(exercise_title_input).to_have_value(title)
+
+        exercise_description_input.fill(description)
+        expect(exercise_description_input).to_have_value(description)
