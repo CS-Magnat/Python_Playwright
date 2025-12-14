@@ -7,7 +7,6 @@ from pages.registration_page import RegistrationPage
 
 @pytest.mark.regression  # Добавили маркировку regression
 @pytest.mark.registration  # Добавили маркировку registration
-
 def test_successful_registration(registration_page: RegistrationPage, dashboard_page: DashboardPage):
     registration_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
     registration_page.fill_registration_form(username="username", email='user.name@gmail.com', password='password')
