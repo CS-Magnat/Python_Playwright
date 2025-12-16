@@ -22,7 +22,7 @@ def test_empty_courses_list(chromium_page_with_state):
 
 @pytest.mark.regression
 @pytest.mark.courses
-def test_create_course(chromium_page_with_state, create_course_page):
+def test_create_course(chromium_page_with_state, create_course_page, courses_list_page):
     chromium_page_with_state.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create")
     create_course_page.check_visible_create_course_title()
     create_course_page.check_disabled_create_course_button()
@@ -32,5 +32,27 @@ def test_create_course(chromium_page_with_state, create_course_page):
     create_course_page.check_visible_exercises_title()
     create_course_page.check_visible_create_exercise_button()
     create_course_page.check_visible_exercises_empty_view()
+
+    create_course_page.upload_preview_image("/Users/uladzimirrudnik/PycharmProjects/Python_Playwright/testdata/files/image.jpg")
+    create_course_page.check_visible_image_upload_view()
+
+    create_course_page.fill_create_course_form(
+        title = "Playwright",
+        estimated_time = "2 weeks",
+        description = "Playwright",
+        max_score = "100",
+        min_score = "10")
+    create_course_page.click_create_course_button()
+
+    courses_list_page.check_visible_courses_title()
+    courses_list_page.check_visible_create_course_button()
+    courses_list_page.check_visible_course_card(
+        index=0,
+        title = "Playwright",
+        estimated_time = "2 weeks",
+        max_score = "100",
+        min_score = "10")
+
     chromium_page_with_state.wait_for_timeout(5000)
+
 
