@@ -1,22 +1,39 @@
 import pytest
-from playwright.sync_api import expect
+from playwright.sync_api import expect, Page
+
+from pages.courses_list_page import CoursesListPage
 from pages.create_course_page import CreateCoursePage
 
 @pytest.mark.regression
 @pytest.mark.courses
-def test_empty_courses_list(chromium_page_with_state):
+def test_empty_courses_list(courses_list_page: CoursesListPage):
 
-    chromium_page_with_state.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
+    # chromium_page_with_state.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
+    #
+    # courses_title = chromium_page_with_state.get_by_test_id('courses-list-toolbar-title-text')
+    # expect(courses_title).to_be_visible()
+    # expect(courses_title).to_have_text('Courses')
+    #
+    # empty_view_icon = chromium_page_with_state.get_by_test_id('courses-list-empty-view-icon')
+    # expect(empty_view_icon).to_be_visible()
+    #
+    # empty_view_title = chromium_page_with_state.get_by_test_id('courses-list-empty-view-title-text')
+    # expect(empty_view_title).to_be_visible()
+    # expect(empty_view_title).to_have_text('There is no results')
+    #
+    # empty_view_description = chromium_page_with_state.get_by_test_id('courses-list-empty-view-description-text')
+    # expect(empty_view_description).to_be_visible()
+    # expect(empty_view_description).to_have_text('Results from the load test pipeline will be displayed here')
 
-    courses_toolbar = chromium_page_with_state.get_by_test_id('courses-list-toolbar-title-text')
-    expect(courses_toolbar).not_to_be_disabled()
-    expect(courses_toolbar).to_have_text("Courses")
+    courses_list_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
 
-    courses_title = chromium_page_with_state.get_by_test_id('courses-list-empty-view-title-text')
-    expect(courses_title).not_to_be_disabled()
-    expect(courses_title).to_have_text("There is no results")
+    courses_list_page.sidebar.check_visible()
+    courses_list_page.navbar.check_visible("username")
 
-    chromium_page_with_state.wait_for_timeout(5000)
+    courses_list_page.check_visible_courses_title()
+    courses_list_page.check_visible_create_course_button()
+    courses_list_page.check_visible_empty_view()
+
 
 
 
