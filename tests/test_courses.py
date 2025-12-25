@@ -70,6 +70,5 @@ def test_create_course(chromium_page_with_state, create_course_page, courses_lis
         max_score = "100",
         min_score = "10")
 
-    chromium_page_with_state.wait_for_timeout(5000)
 
 
