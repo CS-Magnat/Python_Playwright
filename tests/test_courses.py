@@ -63,12 +63,13 @@ def test_create_course(chromium_page_with_state, create_course_page, courses_lis
 
     courses_list_page.check_visible_courses_title()
     courses_list_page.check_visible_create_course_button()
-    courses_list_page.check_visible_course_card(
+    courses_list_page.course_view.check_visible(
         index=0,
-        title = "Playwright",
-        estimated_time = "2 weeks",
-        max_score = "100",
-        min_score = "10")
+        title="Playwright",
+        max_score="100",
+        min_score="10",
+        estimated_time="2 weeks"
+    )
 
 
 
