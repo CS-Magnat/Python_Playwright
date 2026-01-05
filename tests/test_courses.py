@@ -57,7 +57,7 @@ def test_create_course(chromium_page_with_state, create_course_page, courses_lis
     # create_course_page.upload_preview_image("/Users/uladzimirrudnik/PycharmProjects/Python_Playwright/testdata/files/image.jpg")
     # create_course_page.check_visible_image_upload_view()
     # Остальной код без изменений
-    create_course_page.image_upload_widget.upload_preview_image('./testdata/files/image.png')
+    create_course_page.image_upload_widget.upload_preview_image('/Users/uladzimirrudnik/PycharmProjects/Python_Playwright/testdata/files/image.jpg')
     create_course_page.image_upload_widget.check_visible(is_image_uploaded=True)
 
     create_course_page.fill_create_course_form(
