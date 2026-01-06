@@ -24,3 +24,12 @@ class CreateCourseExerciseFormComponent(BaseComponent):
         expect(description_input).to_be_visible()
         expect(description_input).to_have_value(description)
 
+    def fill(self, index: int, title: str, description: str):
+        title_input = self.page.get_by_test_id(f"create-course-exercise-form-title-{index}-input")
+        description_input = self.page.get_by_test_id(f"create-course-exercise-form-description-{index}-input")
+
+        title_input.fill(title)
+        expect(title_input).to_have_value(title)
+
+        description_input.fill(description)
+        expect(description_input).to_have_value(description)
