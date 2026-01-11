@@ -22,7 +22,7 @@ class CreateCoursePage(BasePage):
         # Картинка предпросмотра и блок предпросмотра картинки курса
         # self.preview_image = page.get_by_test_id('create-course-preview-image-upload-widget-preview-image')
         # self.preview_empty_view = EmptyViewComponent(page, 'create-course-preview')
-        # Блок, который отображется, когда в курсе нет заданий
+        # Блок, который отображается, когда в курсе нет заданий
         self.exercises_empty_view = EmptyViewComponent(page, 'create-course-exercises')
 
         # Кнопка загрузки, удаления картинки предпросмотра курса и блок с информацией о загружаемой картинке
