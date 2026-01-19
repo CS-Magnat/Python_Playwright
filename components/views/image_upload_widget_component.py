@@ -43,7 +43,7 @@ class ImageUploadWidgetComponent(BaseComponent):
             expect(self.preview_image).to_be_visible()
 
         if not is_image_uploaded:
-            # Если картинка yt загружена, проверяем наличие компонента EmptyViewComponent
+            # Если картинка не загружена, проверяем наличие компонента EmptyViewComponent
             self.preview_empty_view.check_visible(
                 title='No image selected',
                 description='Preview of selected image will be displayed here'
