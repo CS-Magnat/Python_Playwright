@@ -1,6 +1,8 @@
 import pytest  # Импортируем библиотеку pytest
 
 from pages.authentication.login_page import LoginPage  # Импортируем LoginPage
+from pages.authentication.registration_page import RegistrationPage
+from pages.dashboard.dashboard_page import DashboardPage
 
 
 @pytest.mark.regression  # Добавили маркировку regression
@@ -38,3 +40,17 @@ class TestAuthorization:
 #     wrong_email_or_password_alert = chromium_page.get_by_test_id('login-page-wrong-email-or-password-alert')
 #     expect(wrong_email_or_password_alert).to_be_visible()
 #     expect(wrong_email_or_password_alert).to_have_text("Wrong email or password")
+
+    def test_successful_authorization(self, dashboard_page: DashboardPage, registration_page: RegistrationPage):
+        # Переход на страницу регистрации
+        registration_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
+        # Заполнение формы регистрации и нажатие кнопки "Registration"
+        registration_page.registration_form.fill(email="user.name@gmail.com", username="username", password="password")
+        registration_page.click_registration_button()
+
+        # Проверка видимости элементов Dashboard
+        dashboard_page.dashboard_toolbar_view.check_visible()
+        dashboard_page.navbar.check_visible("username")
+        dashboard_page.sidebar.check_visible()
+        # Клик по кнопке "Logout"
+        dashboard_page.sidebar.click_logout()
