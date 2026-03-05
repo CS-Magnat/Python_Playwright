@@ -41,7 +41,7 @@ class TestAuthorization:
 #     expect(wrong_email_or_password_alert).to_be_visible()
 #     expect(wrong_email_or_password_alert).to_have_text("Wrong email or password")
 
-    def test_successful_authorization(self, dashboard_page: DashboardPage, registration_page: RegistrationPage):
+    def test_successful_authorization(self, login_page: LoginPage, dashboard_page: DashboardPage, registration_page: RegistrationPage):
         # Переход на страницу регистрации
         registration_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
         # Заполнение формы регистрации и нажатие кнопки "Registration"
@@ -54,3 +54,12 @@ class TestAuthorization:
         dashboard_page.sidebar.check_visible()
         # Клик по кнопке "Logout"
         dashboard_page.sidebar.click_logout()
+
+        # Переход на страницу авторизации и авторизация
+        login_page.login_form.fill(email="user.name@gmail.com", password="password")
+        login_page.click_login_button()
+
+        # Проверка элементов Dashboard после входа
+        dashboard_page.dashboard_toolbar_view.check_visible()
+        dashboard_page.navbar.check_visible("username")
+        dashboard_page.sidebar.check_visible()
