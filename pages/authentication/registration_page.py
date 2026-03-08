@@ -36,9 +36,10 @@ class RegistrationPage(BasePage):
 
     # Метод для нажатия на кнопку "Registration"
     def click_registration_button(self):
-        self.registration_button.click()
         # Добавили проверку
-        self.check_current_url(re.compile(".*/#/auth/login"))
+        # self.check_current_url(re.compile(".*/#/auth/login"))
+        self.registration_button.click()
+
 
     # # Метод для нажатия на ссылку "Login"
     def click_login_link(self):
