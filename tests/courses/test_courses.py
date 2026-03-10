@@ -1,3 +1,4 @@
+import allure
 import pytest
 
 from pages.courses.courses_list_page import CoursesListPage
@@ -6,6 +7,7 @@ from pages.courses.courses_list_page import CoursesListPage
 @pytest.mark.regression
 @pytest.mark.courses
 class TestCourses:
+    @allure.title("Check displaying of empty courses list")  # Добавили заголовок
     def test_empty_courses_list(self, courses_list_page: CoursesListPage):
 
         # chromium_page_with_state.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
@@ -40,6 +42,7 @@ class TestCourses:
 
     @pytest.mark.regression
     @pytest.mark.courses
+    @allure.title("Create course")  # Добавили заголовок
     def test_create_course(self, chromium_page_with_state, create_course_page, courses_list_page):
         chromium_page_with_state.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create")
 

@@ -1,5 +1,6 @@
 import time
 
+import allure
 import pytest
 
 from pages.courses.courses_list_page import CoursesListPage
@@ -9,6 +10,7 @@ from pages.courses.create_course_page import CreateCoursePage
 @pytest.mark.regression
 @pytest.mark.courses
 class TestCourses:
+    @allure.title("Edit course")  # Добавили заголовок
     def test_edit_course(self, create_course_page: CreateCoursePage, courses_list_page: CoursesListPage):
         create_course_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create")
         create_course_page.create_course_form.fill(
