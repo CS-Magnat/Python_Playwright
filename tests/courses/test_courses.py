@@ -3,10 +3,12 @@ import pytest
 
 from pages.courses.courses_list_page import CoursesListPage
 from pages.courses.create_course_page import CreateCoursePage
+from tools.allure.tags import AllureTag
 
 
 @pytest.mark.regression
 @pytest.mark.courses
+@allure.tag(AllureTag.REGRESSION, AllureTag.COURSES)  # Добавили теги
 class TestCourses:
     @allure.title("Check displaying of empty courses list")  # Добавили заголовок
     def test_empty_courses_list(self, courses_list_page: CoursesListPage):

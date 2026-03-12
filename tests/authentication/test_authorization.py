@@ -4,14 +4,17 @@ import allure # Импортируем библиотеку allure
 from pages.authentication.login_page import LoginPage  # Импортируем LoginPage
 from pages.authentication.registration_page import RegistrationPage
 from pages.dashboard.dashboard_page import DashboardPage
+from tools.allure.tags import AllureTag
 
 
 @pytest.mark.regression  # Добавили маркировку regression
 @pytest.mark.authorization  # Добавили маркировку authorization
+@allure.tag(AllureTag.REGRESSION, AllureTag.AUTHORIZATION)  # Используем enum
 # Использование фикстуры 'chromium_page', которая автоматически предоставляет готовую страницу
 class TestAuthorization:
     @pytest.mark.parametrize("email, password", [("user.name@gmail.com", "password"), ("user.name@gmail.com", "  "), ("  ", "password")])
     @allure.title("User login with wrong email or password")  # Добавляем человекочитаемый заголовок
+    @allure.tag(AllureTag.USER_LOGIN)  # Используем enum
     def test_wrong_email_or_password_authorization(self, login_page: LoginPage, email: str, password: str):
         login_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login")
         # Заполняем форму авторизации
@@ -43,6 +46,7 @@ class TestAuthorization:
 #     expect(wrong_email_or_password_alert).to_be_visible()
 #     expect(wrong_email_or_password_alert).to_have_text("Wrong email or password")
 
+    @allure.tag(AllureTag.USER_LOGIN)  # Используем enum
     @allure.title("User login with correct email and password")  # Добавили заголовок
     def test_successful_authorization(self, login_page: LoginPage, dashboard_page: DashboardPage, registration_page: RegistrationPage):
         # Переход на страницу регистрации
@@ -67,6 +71,7 @@ class TestAuthorization:
         dashboard_page.navbar.check_visible("username")
         dashboard_page.sidebar.check_visible()
 
+    @allure.tag(AllureTag.NAVIGATION)  # Используем enum
     @allure.title("Navigation from login page to registration page")  # Добавили заголовок
     def test_navigate_from_authorization_to_registration(
             self,

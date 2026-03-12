@@ -2,10 +2,12 @@ import allure
 import pytest
 
 from pages.dashboard.dashboard_page import DashboardPage
+from tools.allure.tags import AllureTag
 
 
 @pytest.mark.dashboard
 @pytest.mark.regression
+@allure.tag(AllureTag.REGRESSION, AllureTag.DASHBOARD) # Добавили теги
 class TestDashboard:
     @allure.title("Check displaying of dashboard page")  # Добавили заголовок
     def test_dashboard_displaying(self, dashboard_page_with_state: DashboardPage):
