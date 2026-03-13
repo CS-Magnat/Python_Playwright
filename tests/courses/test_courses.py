@@ -4,11 +4,17 @@ import pytest
 from pages.courses.courses_list_page import CoursesListPage
 from pages.courses.create_course_page import CreateCoursePage
 from tools.allure.tags import AllureTag
+from tools.allure.epics import AllureEpic # Импортируем enum AllureEpic
+from tools.allure.features import AllureFeature # Импортируем enum AllureFeature
+from tools.allure.stories import AllureStory # Импортируем enum AllureStory
 
 
 @pytest.mark.regression
 @pytest.mark.courses
 @allure.tag(AllureTag.REGRESSION, AllureTag.COURSES)  # Добавили теги
+@allure.epic(AllureEpic.LMS) # Добавили epic
+@allure.feature(AllureFeature.COURSES) # Добавили feature
+@allure.story(AllureStory.COURSES) # Добавили story
 class TestCourses:
     @allure.title("Check displaying of empty courses list")  # Добавили заголовок
     def test_empty_courses_list(self, courses_list_page: CoursesListPage):

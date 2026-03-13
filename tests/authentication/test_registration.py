@@ -4,11 +4,17 @@ import allure
 from pages.dashboard.dashboard_page import DashboardPage
 from pages.authentication.registration_page import RegistrationPage
 from tools.allure.tags import AllureTag
+from tools.allure.epics import AllureEpic # Импортируем enum AllureEpic
+from tools.allure.features import AllureFeature # Импортируем enum AllureFeature
+from tools.allure.stories import AllureStory # Импортируем enum AllureStory
 
 
 @pytest.mark.regression  # Добавили маркировку regression
 @pytest.mark.registration  # Добавили маркировку registration
 @allure.tag(AllureTag.REGRESSION, AllureTag.REGISTRATION)  # Добавили теги
+@allure.epic(AllureEpic.LMS) # Добавили epic
+@allure.feature(AllureFeature.AUTHENTICATION) # Добавили feature
+@allure.story(AllureStory.REGISTRATION) # Добавили story
 class TestRegistration:
     @allure.title("Registration with correct email, username and password")  # Добавили заголовок
     def test_successful_registration(self, registration_page: RegistrationPage, dashboard_page: DashboardPage):

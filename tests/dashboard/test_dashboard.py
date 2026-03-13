@@ -3,11 +3,17 @@ import pytest
 
 from pages.dashboard.dashboard_page import DashboardPage
 from tools.allure.tags import AllureTag
+from tools.allure.epics import AllureEpic # Импортируем enum AllureEpic
+from tools.allure.features import AllureFeature # Импортируем enum AllureFeature
+from tools.allure.stories import AllureStory # Импортируем enum AllureStory
 
 
 @pytest.mark.dashboard
 @pytest.mark.regression
 @allure.tag(AllureTag.REGRESSION, AllureTag.DASHBOARD) # Добавили теги
+@allure.epic(AllureEpic.LMS) # Добавили epic
+@allure.feature(AllureFeature.DASHBOARD) # Добавили feature
+@allure.story(AllureStory.DASHBOARD) # Добавили story
 class TestDashboard:
     @allure.title("Check displaying of dashboard page")  # Добавили заголовок
     def test_dashboard_displaying(self, dashboard_page_with_state: DashboardPage):
