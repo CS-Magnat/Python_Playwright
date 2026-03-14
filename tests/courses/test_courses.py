@@ -7,6 +7,7 @@ from tools.allure.tags import AllureTag
 from tools.allure.epics import AllureEpic # Импортируем enum AllureEpic
 from tools.allure.features import AllureFeature # Импортируем enum AllureFeature
 from tools.allure.stories import AllureStory # Импортируем enum AllureStory
+from allure_commons.types import Severity # Импортируем enum Severity из Allure
 
 
 @pytest.mark.regression
@@ -17,6 +18,7 @@ from tools.allure.stories import AllureStory # Импортируем enum Allur
 @allure.story(AllureStory.COURSES) # Добавили story
 class TestCourses:
     @allure.title("Check displaying of empty courses list")  # Добавили заголовок
+    @allure.severity(Severity.NORMAL)  # Добавили severity
     def test_empty_courses_list(self, courses_list_page: CoursesListPage):
 
         # chromium_page_with_state.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
@@ -52,6 +54,7 @@ class TestCourses:
     @pytest.mark.regression
     @pytest.mark.courses
     @allure.title("Create course")  # Добавили заголовок
+    @allure.severity(Severity.CRITICAL)  # Добавили severity
     def test_create_course(self, chromium_page_with_state, create_course_page, courses_list_page):
         chromium_page_with_state.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create")
 
@@ -106,6 +109,7 @@ class TestCourses:
 
 
     @allure.title("Edit course")  # Добавили заголовок
+    @allure.severity(Severity.CRITICAL)  # Добавили severity
     def test_edit_course(self, create_course_page: CreateCoursePage, courses_list_page: CoursesListPage):
         create_course_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create")
         create_course_page.create_course_form.fill(

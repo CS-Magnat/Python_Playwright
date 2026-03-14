@@ -8,6 +8,7 @@ from tools.allure.tags import AllureTag
 from tools.allure.epics import AllureEpic # Импортируем enum AllureEpic
 from tools.allure.features import AllureFeature # Импортируем enum AllureFeature
 from tools.allure.stories import AllureStory # Импортируем enum AllureStory
+from allure_commons.types import Severity # Импортируем enum Severity из Allure
 
 
 @pytest.mark.regression  # Добавили маркировку regression
@@ -21,6 +22,7 @@ class TestAuthorization:
     @pytest.mark.parametrize("email, password", [("user.name@gmail.com", "password"), ("user.name@gmail.com", "  "), ("  ", "password")])
     @allure.title("User login with wrong email or password")  # Добавляем человекочитаемый заголовок
     @allure.tag(AllureTag.USER_LOGIN)  # Используем enum
+    @allure.severity(Severity.CRITICAL)  # Добавили severity
     def test_wrong_email_or_password_authorization(self, login_page: LoginPage, email: str, password: str):
         login_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login")
         # Заполняем форму авторизации
@@ -54,6 +56,7 @@ class TestAuthorization:
 
     @allure.tag(AllureTag.USER_LOGIN)  # Используем enum
     @allure.title("User login with correct email and password")  # Добавили заголовок
+    @allure.severity(Severity.BLOCKER)  # Добавили severity
     def test_successful_authorization(self, login_page: LoginPage, dashboard_page: DashboardPage, registration_page: RegistrationPage):
         # Переход на страницу регистрации
         registration_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
@@ -79,6 +82,7 @@ class TestAuthorization:
 
     @allure.tag(AllureTag.NAVIGATION)  # Используем enum
     @allure.title("Navigation from login page to registration page")  # Добавили заголовок
+    @allure.severity(Severity.NORMAL)  # Добавили severity
     def test_navigate_from_authorization_to_registration(
             self,
             login_page: LoginPage,
