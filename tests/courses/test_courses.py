@@ -16,6 +16,9 @@ from allure_commons.types import Severity # Импортируем enum Severity
 @allure.epic(AllureEpic.LMS) # Добавили epic
 @allure.feature(AllureFeature.COURSES) # Добавили feature
 @allure.story(AllureStory.COURSES) # Добавили story
+@allure.parent_suite(AllureEpic.LMS)
+@allure.suite(AllureFeature.AUTHENTICATION)
+@allure.sub_suite(AllureStory.AUTHORIZATION)
 class TestCourses:
     @allure.title("Check displaying of empty courses list")  # Добавили заголовок
     @allure.severity(Severity.NORMAL)  # Добавили severity
