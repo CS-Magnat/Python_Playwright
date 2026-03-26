@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Page, expect
 
 from components.base_component import BaseComponent
@@ -15,7 +16,7 @@ class CreateCourseToolbarViewComponent(BaseComponent):
         self.create_course_title = Text(page,'create-course-toolbar-title-text', "course-toolbar-title")
         self.create_course_button = Button(page,'create-course-toolbar-create-course-button', "course-toolbar-create")
 
-
+    @allure.step("Check visible create course toolbar")
     def check_visible(self, is_create_course_disabled: bool = True):
         if is_create_course_disabled:
             # expect(self.create_course_button).to_be_disabled()
