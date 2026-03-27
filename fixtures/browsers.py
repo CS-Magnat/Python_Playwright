@@ -1,22 +1,27 @@
 import pytest  # Импортируем pytest
 from playwright.sync_api import sync_playwright, \
     Page, expect, Playwright  # Имопртируем класс страницы, будем использовать его для аннотации типов
+from _pytest.fixtures import SubRequest  # Импортируем класс SubRequest для аннотации
 
 from pages.authentication.registration_page import RegistrationPage
 
 
 @pytest.fixture  # Объявляем фикстуру, по умолчанию скоуп function, то что нам нужно
-def chromium_page(playwright: Playwright) -> Page:  # Аннотируем возвращаемое фикстурой значение
+def chromium_page(request: SubRequest, playwright: Playwright) -> Page:  # Аннотируем возвращаемое фикстурой значение, Добавили аргумент request
     # Запускаем браузер
     browser = playwright.chromium.launch(headless=False)
-    # Передаем страницу для использования в тесте
+    context = browser.new_context()  # Создаем контекст для новой сессии браузера
+    context.tracing.start(screenshots=True, snapshots=True, sources=True)  # Включаем трейсинг
+    # Открываем новую страницу и передаем ее в тест, Открываем новую страницу в контексте
     yield browser.new_page()
+    # В данном случае request.node.name содержит название текущего автотеста
+    context.tracing.stop(path=f'./tracing/{request.node.name}.zip')  # Сохраняем трейсинг в файл
     # Закрываем браузер после выполнения тестов
     browser.close()
 
 @pytest.fixture(scope="session")
 def initialize_browser_state(playwright: Playwright):
-    browser = playwright.chromium.launch(headless=False)
+    browser = playwright.chromium.launch(headless=False) # Запускаем браузер
     context = browser.new_context()
     page = context.new_page()
 
@@ -43,7 +48,10 @@ def initialize_browser_state(playwright: Playwright):
 
 @pytest.fixture
 def chromium_page_with_state(initialize_browser_state, playwright: Playwright) -> Page:
-    browser = playwright.chromium.launch(headless=False)
+    browser = playwright.chromium.launch(headless=False) # Запускаем браузер
+    # Создаем контекст вместе с сохраненным состоянием бразуера
     context = browser.new_context(storage_state="browser-state.json")  # Указываем файл с сохраненным состоянием
+    # Открываем новую страницу и передаем ее в тест
     yield context.new_page()
+    # После выполнения теста закрываем браузер
     browser.close()
