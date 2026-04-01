@@ -11,7 +11,8 @@ from pages.authentication.registration_page import RegistrationPage
 def chromium_page(request: SubRequest, playwright: Playwright) -> Page:  # Аннотируем возвращаемое фикстурой значение, Добавили аргумент request
     # Запускаем браузер
     browser = playwright.chromium.launch(headless=False)
-    context = browser.new_context()  # Создаем контекст для новой сессии браузера
+    # Указываем директорию для сохранения видеозаписей
+    context = browser.new_context(record_video_dir='./videos') # Создаем контекст для новой сессии браузера
     context.tracing.start(screenshots=True, snapshots=True, sources=True)  # Включаем трейсинг
     # Открываем новую страницу и передаем ее в тест, Открываем новую страницу в контексте
     yield browser.new_page()
@@ -53,7 +54,8 @@ def initialize_browser_state(playwright: Playwright):
 @pytest.fixture
 def chromium_page_with_state(initialize_browser_state, request: SubRequest, playwright: Playwright) -> Page:
     browser = playwright.chromium.launch(headless=False) # Запускаем браузер
-    context = browser.new_context(storage_state="browser-state.json")  # Создаем контекст для новой сессии браузера
+    # Указываем директорию для сохранения видеозаписей
+    context = browser.new_context(storage_state="browser-state.json", record_video_dir='./videos') # Создаем контекст для новой сессии браузера
     # Создаем контекст вместе с сохраненным состоянием бразуера
     context = browser.new_context(storage_state="browser-state.json")  # Указываем файл с сохраненным состоянием
     context.tracing.start(screenshots=True, snapshots=True, sources=True)  # Включаем трейсинг
