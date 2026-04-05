@@ -5,29 +5,32 @@ from playwright.sync_api import sync_playwright, \
 from _pytest.fixtures import SubRequest  # Импортируем класс SubRequest для аннотации
 
 from pages.authentication.registration_page import RegistrationPage
+from tools.playwright.pages import initialize_playwright_page
 
 
 @pytest.fixture  # Объявляем фикстуру, по умолчанию скоуп function, то что нам нужно
 def chromium_page(request: SubRequest, playwright: Playwright) -> Page:  # Аннотируем возвращаемое фикстурой значение, Добавили аргумент request
-    # Запускаем браузер
-    browser = playwright.chromium.launch(headless=False)
-    # Указываем директорию для сохранения видеозаписей
-    context = browser.new_context(record_video_dir='./videos') # Создаем контекст для новой сессии браузера
-    context.tracing.start(screenshots=True, snapshots=True, sources=True)  # Включаем трейсинг
-    # Открываем новую страницу и передаем ее в тест, Открываем новую страницу в контексте
-    # Перенесли инициализацию страницы в отдельную переменную
-    page = context.new_page()
-    #yield browser.new_page()
-    yield page
-    # В данном случае request.node.name содержит название текущего автотеста
-    context.tracing.stop(path=f'./tracing/{request.node.name}.zip')  # Сохраняем трейсинг в файл
-    # Закрываем браузер после выполнения тестов
-    browser.close()
+    yield from initialize_playwright_page(playwright, test_name=request.node.name)
 
-    # Прикрепляем файл с трейсингом к Allure отчету
-    allure.attach.file(f'./tracing/{request.node.name}.zip', name='trace', extension='zip')
-    # Прикрепляем видео автотеста к Allure отчету
-    allure.attach.file(page.video.path(), name='video', attachment_type=allure.attachment_type.WEBM)
+    # # Запускаем браузер
+    # browser = playwright.chromium.launch(headless=False)
+    # # Указываем директорию для сохранения видеозаписей
+    # context = browser.new_context(record_video_dir='./videos') # Создаем контекст для новой сессии браузера
+    # context.tracing.start(screenshots=True, snapshots=True, sources=True)  # Включаем трейсинг
+    # # Открываем новую страницу и передаем ее в тест, Открываем новую страницу в контексте
+    # # Перенесли инициализацию страницы в отдельную переменную
+    # page = context.new_page()
+    # #yield browser.new_page()
+    # yield page
+    # # В данном случае request.node.name содержит название текущего автотеста
+    # context.tracing.stop(path=f'./tracing/{request.node.name}.zip')  # Сохраняем трейсинг в файл
+    # # Закрываем браузер после выполнения тестов
+    # browser.close()
+    #
+    # # Прикрепляем файл с трейсингом к Allure отчету
+    # allure.attach.file(f'./tracing/{request.node.name}.zip', name='trace', extension='zip')
+    # # Прикрепляем видео автотеста к Allure отчету
+    # allure.attach.file(page.video.path(), name='video', attachment_type=allure.attachment_type.WEBM)
 
 @pytest.fixture(scope="session")
 def initialize_browser_state(playwright: Playwright):
@@ -58,21 +61,29 @@ def initialize_browser_state(playwright: Playwright):
 
 @pytest.fixture
 def chromium_page_with_state(initialize_browser_state, request: SubRequest, playwright: Playwright) -> Page:
-    browser = playwright.chromium.launch(headless=False) # Запускаем браузер
-    # Создаем контекст вместе с сохраненным состоянием бразуера
-    # Указываем директорию для сохранения видеозаписей
-    context = browser.new_context(storage_state="browser-state.json", record_video_dir='./videos') # Создаем контекст для новой сессии браузера
-    context.tracing.start(screenshots=True, snapshots=True, sources=True)  # Включаем трейсинг
-    # Перенесли инициализацию страницы в отдельную переменную
-    page = context.new_page()
-    # Открываем новую страницу и передаем ее в тест
-    # yield browser.new_page()
-    yield page
-    context.tracing.stop(path=f'./tracing/{request.node.name}.zip')  # Сохраняем трейсинг в файл
-    # После выполнения теста закрываем браузер
-    browser.close()
+    yield from initialize_playwright_page(
+        playwright,
+        test_name=request.node.name,
+        storage_state="browser-state.json"
+    )
 
-    # Прикрепляем файл с трейсингом к Allure отчету
-    allure.attach.file(f'./tracing/{request.node.name}.zip', name='trace', extension='zip')
-    # Прикрепляем видео автотеста к Allure отчету
-    allure.attach.file(page.video.path(), name='video', attachment_type=allure.attachment_type.WEBM)
+    #
+    #
+    # browser = playwright.chromium.launch(headless=False) # Запускаем браузер
+    # # Создаем контекст вместе с сохраненным состоянием бразуера
+    # # Указываем директорию для сохранения видеозаписей
+    # context = browser.new_context(storage_state="browser-state.json", record_video_dir='./videos') # Создаем контекст для новой сессии браузера
+    # context.tracing.start(screenshots=True, snapshots=True, sources=True)  # Включаем трейсинг
+    # # Перенесли инициализацию страницы в отдельную переменную
+    # page = context.new_page()
+    # # Открываем новую страницу и передаем ее в тест
+    # # yield browser.new_page()
+    # yield page
+    # context.tracing.stop(path=f'./tracing/{request.node.name}.zip')  # Сохраняем трейсинг в файл
+    # # После выполнения теста закрываем браузер
+    # browser.close()
+    #
+    # # Прикрепляем файл с трейсингом к Allure отчету
+    # allure.attach.file(f'./tracing/{request.node.name}.zip', name='trace', extension='zip')
+    # # Прикрепляем видео автотеста к Allure отчету
+    # allure.attach.file(page.video.path(), name='video', attachment_type=allure.attachment_type.WEBM)
