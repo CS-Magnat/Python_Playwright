@@ -1,5 +1,7 @@
 from playwright.sync_api import sync_playwright, expect
 
+from tools.routes import Settings, AppRoute
+
 with sync_playwright() as playwright:
 
     browser = playwright.chromium.launch(headless=False)
@@ -8,16 +10,16 @@ with sync_playwright() as playwright:
 
     page = context.new_page()
 
-    page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
+    page.goto(AppRoute.REGISTRATION)
 
     email_input = page.get_by_test_id('registration-form-email-input').locator('input')
-    email_input.fill('user.name@gmail.com')
+    email_input.fill(Settings.email)
 
     username_input = page.get_by_test_id('registration-form-username-input').locator('input')
-    username_input.fill('username')
+    username_input.fill(Settings.username)
 
     password_input = page.get_by_test_id('registration-form-password-input').locator('input')
-    password_input.fill('password')
+    password_input.fill(Settings.password)
 
     registration_button = page.get_by_test_id('registration-page-registration-button')
     registration_button.click()
@@ -31,7 +33,7 @@ with sync_playwright() as playwright:
     context = browser.new_context(storage_state="browser-state.json") # Указываем файл с сохраненным состоянием
     page = context.new_page()
 
-    page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
+    page.goto(AppRoute.COURSES)
 
     courses_toolbar = page.get_by_test_id('courses-list-toolbar-title-text')
     expect(courses_toolbar).not_to_be_disabled()
