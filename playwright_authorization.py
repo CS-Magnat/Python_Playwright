@@ -1,6 +1,7 @@
 from playwright.sync_api import sync_playwright, expect
 
-from tools.routes import Settings, AppRoute
+from config import settings
+from tools.routes import AppRoute
 
 with sync_playwright() as playwright:
     # Открываем браузер и создаем новую страницу
@@ -12,11 +13,11 @@ with sync_playwright() as playwright:
 
     # Заполняем поле email
     email_input = page.get_by_test_id('login-form-email-input').locator('input')
-    email_input.fill(Settings.email)
+    email_input.fill(settings.test_user.email)
 
     # Заполняем поле пароль
     password_input = page.get_by_test_id('login-form-password-input').locator('input')
-    password_input.fill(Settings.password)
+    password_input.fill(settings.test_user.password)
 
     # Нажимаем на кнопку Login
     login_button = page.get_by_test_id('login-page-login-button')
