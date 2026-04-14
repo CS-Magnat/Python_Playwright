@@ -7,7 +7,3 @@ class AppRoute(str, Enum):
     COURSES = "./#/courses"
     COURSES_CREATE = "./#/courses/create"
 
-class Settings(str, Enum):
-    email="user.name@gmail.com",
-    username="username",
-    password="password"

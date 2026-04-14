@@ -1,6 +1,7 @@
 import allure
 import pytest
 
+from config import settings
 from pages.courses.courses_list_page import CoursesListPage
 from pages.courses.create_course_page import CreateCoursePage
 from tools.allure.tags import AllureTag
@@ -8,6 +9,8 @@ from tools.allure.epics import AllureEpic # Импортируем enum AllureEp
 from tools.allure.features import AllureFeature # Импортируем enum AllureFeature
 from tools.allure.stories import AllureStory # Импортируем enum AllureStory
 from allure_commons.types import Severity # Импортируем enum Severity из Allure
+
+from tools.routes import AppRoute
 
 
 @pytest.mark.regression
@@ -41,7 +44,7 @@ class TestCourses:
         # expect(empty_view_description).to_be_visible()
         # expect(empty_view_description).to_have_text('Results from the load test pipeline will be displayed here')
 
-        courses_list_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
+        courses_list_page.visit(AppRoute.COURSES)
 
         courses_list_page.sidebar.check_visible()
         courses_list_page.navbar.check_visible("username")
@@ -59,7 +62,7 @@ class TestCourses:
     @allure.title("Create course")  # Добавили заголовок
     @allure.severity(Severity.CRITICAL)  # Добавили severity
     def test_create_course(self, chromium_page_with_state, create_course_page, courses_list_page):
-        chromium_page_with_state.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create")
+        chromium_page_with_state.goto(AppRoute.COURSES_CREATE)
 
         create_course_page.create_course_toolbar_view.check_visible(is_create_course_disabled=True)
         # create_course_page.check_visible_create_course_title()
@@ -80,7 +83,7 @@ class TestCourses:
         # create_course_page.upload_preview_image("/Users/uladzimirrudnik/PycharmProjects/Python_Playwright/testdata/files/image.jpg")
         # create_course_page.check_visible_image_upload_view()
         # Остальной код без изменений
-        create_course_page.image_upload_widget.upload_preview_image('/Users/uladzimirrudnik/PycharmProjects/Python_Playwright/testdata/files/image.jpg')
+        create_course_page.image_upload_widget.upload_preview_image(settings.test_data.image_png_file)
         create_course_page.image_upload_widget.check_visible(is_image_uploaded=True)
 
         create_course_page.create_course_form.fill(
@@ -114,7 +117,7 @@ class TestCourses:
     @allure.title("Edit course")  # Добавили заголовок
     @allure.severity(Severity.CRITICAL)  # Добавили severity
     def test_edit_course(self, create_course_page: CreateCoursePage, courses_list_page: CoursesListPage):
-        create_course_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create")
+        create_course_page.visit(AppRoute.COURSES_CREATE)
         create_course_page.create_course_form.fill(
             title="Playwright",
             estimated_time="2 weeks",
@@ -122,8 +125,7 @@ class TestCourses:
             max_score="100",
             min_score="10"
         )
-        create_course_page.image_upload_widget.upload_preview_image(
-            '/Users/uladzimirrudnik/PycharmProjects/Python_Playwright/testdata/files/image.jpg')
+        create_course_page.image_upload_widget.upload_preview_image(settings.test_data.image_png_file)
         create_course_page.image_upload_widget.check_visible(is_image_uploaded=True)
         create_course_page.create_course_toolbar_view.click_create_course_button()
 
@@ -143,8 +145,7 @@ class TestCourses:
             max_score="1000",
             min_score="100"
         )
-        create_course_page.image_upload_widget.upload_preview_image(
-            '/Users/uladzimirrudnik/PycharmProjects/Python_Playwright/testdata/files/image.jpg')
+        create_course_page.image_upload_widget.upload_preview_image(settings.test_data.image_png_file)
         create_course_page.image_upload_widget.check_visible(is_image_uploaded=True)
 
         # Проверяем заполненность полей ДО нажатия кнопки
