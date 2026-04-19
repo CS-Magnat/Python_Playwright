@@ -14,3 +14,12 @@ def get_logger(name: str) -> logging.Logger:
     # чтобы он обрабатывал все сообщения от DEBUG и выше
     handler.setLevel(logging.DEBUG)
 
+    # Задаем форматирование лог-сообщений: включаем время, имя логгера, уровень и сообщение
+    formatter = logging.Formatter('%(asctime)s | %(name)s | %(levelname)s | %(message)s')
+    handler.setFormatter(formatter)  # Применяем форматтер к обработчику
+
+    # Добавляем обработчик к логгеру
+    logger.addHandler(handler)
+
+    # Возвращаем настроенный логгер
+    return logger
