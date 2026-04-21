@@ -27,6 +27,7 @@ class BaseElement:
         # Добавляем аргумент nth со значением по умолчанию 0
         locator = self.locator.format(**kwargs)
         step = f'Getting locator with "data-testid={locator}" at index "{nth}"'
+
         with allure.step(step):
             logger.info(step)  # Добавили логирование
             return self.page.get_by_test_id(locator).nth(nth)  # Теперь выбираем элемент по индексу
