@@ -39,7 +39,7 @@ class CreateCourseFormComponent(BaseComponent):
 
         self.create_course_description_textarea.fill(description)
         # expect(self.create_course_description_textarea).to_have_value(description)
-        self.create_course_description_textarea.check_value(description)
+        self.create_course_description_textarea.check_have_value(description)
 
         self.create_course_max_score_input.fill(max_score)
         # expect(self.create_course_max_score_input).to_have_value(max_score)
@@ -64,7 +64,7 @@ class CreateCourseFormComponent(BaseComponent):
         # expect(self.create_course_description_textarea).to_be_visible()
         # expect(self.create_course_description_textarea).to_have_value(description)
         self.create_course_description_textarea.check_visible()
-        self.create_course_description_textarea.check_value(description)
+        self.create_course_description_textarea.check_have_value(description)
 
         # expect(self.create_course_max_score_input).to_be_visible()
         # expect(self.create_course_max_score_input).to_have_value(max_score)

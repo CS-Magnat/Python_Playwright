@@ -28,16 +28,16 @@ class Input(BaseElement):
         return super().get_locator(nth, **kwargs).locator('input')
 
     def fill(self, value: str, nth: int = 0, **kwargs):
-        with allure.step(f'Fill {self.type_of} "{self.name}" to value "{value}"'):  # Добавили шаг
+        step = f'Filling "{self.type_of}" with "{value}"'
+        with allure.step(step):  # Добавили шаг
             # Добавили аргумент nth и передеаем его в get_locator
             locator = self.get_locator(nth, **kwargs)
-            step = f'Fill with "data-testid={locator}" at index "{nth}"'
             logger.info(step)  # Добавили логирование
             locator.fill(value)
 
     def check_have_value(self, value: str, nth: int = 0, **kwargs):
-        step = f'Checking that {self.type_of} "{self.name}" is visible'
-        with allure.step(f'Checking that {self.type_of} "{self.name}" has a value "{value}"'):  # Добавили шаг
+        step = f'Checking that {self.type_of} "{self.name}" has a value "{value}"'
+        with allure.step(step):  # Добавили шаг
             # Добавили аргумент nth и передеаем его в get_locator
             locator = self.get_locator(nth, **kwargs)
             logger.info(step)  # Добавили логирование
