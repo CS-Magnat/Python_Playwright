@@ -12,12 +12,6 @@ class BaseComponent:
     def __init__(self, page: Page):
         self.page = page
 
-    #@allure.step("Check current URL")
-    # def check_current_url(self, expected_url: Pattern[str]):
-    #     step = f'Checking that the current url is "{expected_url.pattern}"'
-    #     logger.info(step)  # Добавили логирование
-    #     expect(self.page).to_have_url(expected_url)
-
     def check_current_url(self, expected_url: Pattern[str]):
         step = f'Checking that the current url is "{expected_url.pattern}"'
         with allure.step(step):
