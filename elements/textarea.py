@@ -8,17 +8,6 @@ logger = get_logger("TEXT_AREA")  # Инициализируем logger
 
 
 class Textarea(BaseElement):
-    # def get_locator(self, **kwargs) -> Locator:
-    #     # Получаем локатор textarea
-    #     return super().get_locator(**kwargs).locator('textarea').first
-    #
-    # def fill(self, value: str, **kwargs):
-    #     locator = self.get_locator(**kwargs)
-    #     locator.fill(value)
-    #
-    # def check_have_value(self, value: str, **kwargs):
-    #     locator = self.get_locator(**kwargs)
-    #     expect(locator).to_have_value(value)
 
     @property
     def type_of(self) -> str:  # Переопределяем свойство type_of
