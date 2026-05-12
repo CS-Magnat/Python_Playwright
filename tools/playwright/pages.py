@@ -10,9 +10,6 @@ def initialize_playwright_page(
         browser_type: Browser, # Передаем бразуер в качестве аргумента
         storage_state: str | None = None
 ) -> Page:
-    # browser = playwright.chromium.launch(headless=False)
-    # context = browser.new_context(storage_state=storage_state, record_video_dir='./videos')
-
     # Используем settings.headless
     # Динамически получаем нужный браузер
     browser = playwright[browser_type].launch(headless=settings.headless)
@@ -24,13 +21,10 @@ def initialize_playwright_page(
 
     yield page
 
-    # context.tracing.stop(path=f'./tracing/{test_name}.zip')
-
     # Используем settings.tracing_dir
     context.tracing.stop(path=settings.tracing_dir.joinpath(f'{test_name}.zip'))
     browser.close()
 
     # Используем settings.tracing_dir
     allure.attach.file(settings.tracing_dir.joinpath(f'{test_name}.zip'), name='trace', extension='zip')
-    # allure.attach.file(f'./tracing/{test_name}.zip', name='trace', extension='zip')
     allure.attach.file(page.video.path(), name='video', attachment_type=allure.attachment_type.WEBM)

@@ -20,6 +20,6 @@ class RegistrationPage(BasePage):
     def click_registration_button(self):
         self.registration_button.click()
 
-    # # Метод для нажатия на ссылку "Login"
+    # Метод для нажатия на ссылку "Login"
     def click_login_link(self):
         self.login_link.click()
