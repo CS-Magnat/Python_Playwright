@@ -1,8 +1,6 @@
 import re
-
 import allure
 from playwright.sync_api import Page
-
 from components.base_component import BaseComponent
 from elements.button import Button
 from elements.text import Text
@@ -24,5 +22,4 @@ class CoursesListToolbarViewComponent(BaseComponent):
     @allure.step("Check click create course button")
     def click_create_course_button(self):
         self.create_course_button.click()
-        # Дополнительно проверим, что произошел редирект на правильную страницу
         self.check_current_url(re.compile(".*/#/courses/create"))

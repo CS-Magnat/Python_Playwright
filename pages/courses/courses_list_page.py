@@ -1,5 +1,4 @@
-from playwright.sync_api import Page, expect
-
+from playwright.sync_api import Page
 from components.navigation.navbar_component import NavbarComponent
 from components.navigation.sidebar_component import SidebarComponent
 from components.views.empty_view_component import EmptyViewComponent
@@ -12,17 +11,10 @@ class CoursesListPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
 
-        # Пустой блок при отсутствии курсов
         self.empty_view = EmptyViewComponent(page, 'courses-list')
-
         self.sidebar = SidebarComponent(page)
         self.navbar = NavbarComponent(page)
-
-        # Заголовок и кнопка создания курса
-        # Локаторы были заменены компонентом
         self.toolbar_view = CoursesListToolbarViewComponent(page)
-
-        # Заменили локаторы на компонент
         self.course_view = CourseViewComponent(page)
 
 

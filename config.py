@@ -1,7 +1,6 @@
 from enum import Enum
 from typing import Self
-
-from pydantic import EmailStr, FilePath, HttpUrl, DirectoryPath, Field, BaseModel
+from pydantic import EmailStr, FilePath, HttpUrl, DirectoryPath, BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -24,9 +23,9 @@ class TestData(BaseModel):
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",  # Указываем, из какого файла читать настройки
-        env_file_encoding="utf-8",  # Указываем кодировку файла
-        env_nested_delimiter=".",  # Указываем разделитель для вложенных переменных
+        env_file=".env",
+        env_file_encoding="utf-8",
+        env_nested_delimiter=".",
     )
 
     app_url: HttpUrl
@@ -37,36 +36,27 @@ class Settings(BaseSettings):
     videos_dir: DirectoryPath
     tracing_dir: DirectoryPath
     browser_state_file: FilePath
-    allure_results_dir: DirectoryPath  # Добавили новое поле
-    # Добавили метод initialize
+    allure_results_dir: DirectoryPath
     @classmethod
-    def initialize(cls) -> Self:  # Возвращает экземпляр класса Settings
-        # Указываем пути
+    def initialize(cls) -> Self:
         videos_dir = DirectoryPath("./videos")
         tracing_dir = DirectoryPath("./tracing")
-        allure_results_dir = DirectoryPath("./allure-results")  # Создаем объект пути к папке
+        allure_results_dir = DirectoryPath("./allure-results")
         browser_state_file = FilePath("browser-state.json")
 
-        # Создаем директории, если они не существуют
-        videos_dir.mkdir(exist_ok=True)  # Если директория сещуствует, то игнорируем ошибку
+        videos_dir.mkdir(exist_ok=True)
         tracing_dir.mkdir(exist_ok=True)
-        allure_results_dir.mkdir(exist_ok=True)  # Создаем папку allure-results, если она не существует
+        allure_results_dir.mkdir(exist_ok=True)
+        browser_state_file.touch(exist_ok=True)
 
-        # Создаем файл состояния браузера, если его нет
-        browser_state_file.touch(exist_ok=True)  # Если файл сещуствует, то игнорируем ошибку
-
-        # Возвращаем модель с инициализированными значениями
         return Settings(
             videos_dir=videos_dir,
             tracing_dir=tracing_dir,
-            allure_results_dir=allure_results_dir, # Передаем allure_results_dir в инициализацию настроек
+            allure_results_dir=allure_results_dir,
             browser_state_file=browser_state_file
         )
-
-
 
     def get_base_url(self) -> str:
         return f"{self.app_url}/"
 
-# Инициализируем настройки
 settings = Settings.initialize()

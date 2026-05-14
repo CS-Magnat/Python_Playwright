@@ -1,9 +1,7 @@
 import allure
 from playwright.sync_api import Page, expect
-
 from components.base_component import BaseComponent
 from elements.input import Input
-from elements.text import Text
 from elements.textarea import Textarea
 
 
@@ -11,10 +9,8 @@ class CreateCourseFormComponent(BaseComponent):
     def __init__(self, page: Page):
         super().__init__(page)
 
-        # Форма создания курса
         self.create_course_title_input = Input(page, 'create-course-form-title-input', 'course-form-title')
         self.create_course_estimated_time_input = Input(page, 'create-course-form-estimated-time-input', 'course-form-estimated-time')
-        # При поиске поля описания будет найдено два тега textarea, берем первый из них
         self.create_course_description_textarea = Textarea(page, 'create-course-form-description-input', 'course-form-description')
         self.create_course_max_score_input = Input(page, 'create-course-form-max-score-input', 'course-form-max-score')
         self.create_course_min_score_input = Input(page, 'create-course-form-min-score-input', 'course-form-min-score')

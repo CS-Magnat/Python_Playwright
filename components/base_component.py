@@ -1,11 +1,12 @@
 import allure
 from typing import Pattern
-
 from playwright.sync_api import Page, expect
+from tools.logger import get_logger
 
-from tools.logger import get_logger  # Импортируем get_logger
 
-logger = get_logger("BASE_COMPONENT")  # Инициализируем logger
+
+
+logger = get_logger("BASE_COMPONENT")
 
 
 class BaseComponent:

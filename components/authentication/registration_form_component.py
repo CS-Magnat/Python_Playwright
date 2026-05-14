@@ -18,7 +18,7 @@ class RegistrationFormComponent(BaseComponent):
         self.username_input.fill(username)
         self.password_input.fill(password)
 
-    @allure.step("Check visible registration form")  # Добавили allure шаг
+    @allure.step("Check visible registration form")
     def check_visible(self, email, username, password):
         self.email_input.check_have_value(email)
         self.username_input.check_have_value(username)

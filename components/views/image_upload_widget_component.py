@@ -1,5 +1,4 @@
 from playwright.sync_api import Page
-
 from components.base_component import BaseComponent
 from components.views.empty_view_component import EmptyViewComponent
 from elements.button import Button
@@ -13,7 +12,6 @@ class ImageUploadWidgetComponent(BaseComponent):
     def __init__(self, page: Page, identifier: str):
         super().__init__(page)
 
-        # Используем компонент EmptyViewComponent
         self.preview_empty_view = EmptyViewComponent(page, identifier)
         self.preview_image = Image(page,f'{identifier}-image-upload-widget-preview-image', 'upload-widget-preview')
         self.image_upload_info_icon = Icon(page,f'{identifier}-image-upload-widget-info-icon', 'upload-widget-info')
@@ -23,8 +21,6 @@ class ImageUploadWidgetComponent(BaseComponent):
         self.remove_button = Button(page,f'{identifier}-image-upload-widget-remove-button', 'upload-widget-remove')
         self.upload_input = FileInput(page,f'{identifier}-image-upload-widget-input', 'upload-widget-input')
 
-
-    # Проверяет отображение виджета в зависимости от наличия загруженного изображения
     def check_visible(self, is_image_uploaded: bool = False):
         self.image_upload_info_icon.check_visible()
         self.image_upload_info_title.check_visible()
@@ -36,17 +32,14 @@ class ImageUploadWidgetComponent(BaseComponent):
         self.upload_button.check_visible()
 
         if is_image_uploaded:
-            # Если картинка загружена, проверяем состояние специфичное для загруженной картинки
             self.remove_button.check_visible()
             self.preview_image.check_visible()
 
         if not is_image_uploaded:
-            # Если картинка не загружена, проверяем наличие компонента EmptyViewComponent
             self.preview_empty_view.check_visible(
                 title='No image selected',
                 description='Preview of selected image will be displayed here'
             )
-
 
     def click_remove_image_button(self):
         self.remove_button.click()

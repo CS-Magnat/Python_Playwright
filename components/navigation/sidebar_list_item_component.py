@@ -1,8 +1,6 @@
 from re import Pattern
-
 import allure
-from playwright.sync_api import Page, expect
-
+from playwright.sync_api import Page
 from components.base_component import BaseComponent
 from elements.button import Button
 from elements.icon import Icon
@@ -10,16 +8,14 @@ from elements.text import Text
 
 
 class SidebarListItemComponent(BaseComponent):
-    # Принимаем идентификатор компонента, например dashboard
     def __init__(self, page: Page, identifier: str):
         super().__init__(page)
 
-        # Формируем локаторы динамически
         self.icon = Icon(page, f'{identifier}-drawer-list-item-icon', 'list-item-icon')
         self.title = Text(page, f'{identifier}-drawer-list-item-title-text', 'item-title-text')
         self.button = Button(page, f'{identifier}-drawer-list-item-button', 'list-item-button')
 
-    @allure.step('Check visible "{title}" sidebar list item')  # Добавили allure шаг
+    @allure.step('Check visible "{title}" sidebar list item')
     def check_visible(self, title: str):
         self.icon.check_visible()
         self.title.check_visible()

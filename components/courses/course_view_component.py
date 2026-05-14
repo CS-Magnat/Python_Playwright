@@ -1,6 +1,5 @@
 import allure
 from playwright.sync_api import Page, expect
-
 from components.base_component import BaseComponent
 from components.courses.course_view_menu_component import CourseViewMenuComponent
 from elements.image import Image
@@ -19,9 +18,8 @@ class CourseViewComponent(BaseComponent):
         self.estimated_time_text = Text(page, 'course-estimated-time-info-row-view-text', 'Estimated time')
 
 
-    @allure.step('Check visible course view at index "{index}"')  # Добавили allure шаг
+    @allure.step('Check visible course view at index "{index}"')
     def check_visible(self, index: int, title: str, max_score: str, min_score: str, estimated_time: str):
-        # Используем nth=index для поиска элементов по индексу
         self.image.check_visible(nth=index)
         self.title.check_visible(nth=index)
         self.title.check_have_text(title, nth=index)
