@@ -5,6 +5,12 @@ from elements.button import Button
 
 
 class CourseViewMenuComponent(BaseComponent):
+    """
+    Component representing the action menu for a specific course card.
+    
+    Provides methods to interact with menu items such as Edit and Delete.
+    """
+    
     def __init__(self, page: Page):
         super().__init__(page)
 
@@ -14,12 +20,24 @@ class CourseViewMenuComponent(BaseComponent):
 
     @allure.step('Open course menu at index "{index}" and click edit')
     def click_edit(self, index: int):
+        """
+        Expands the course menu and clicks the 'Edit' option.
+        
+        Args:
+            index: The zero-based index of the course in the list.
+        """
         self.menu_button.click(nth=index)
         self.edit_menu_item.check_visible(nth=index)
         self.edit_menu_item.click(nth=index)
 
     @allure.step('Open course menu at index "{index}" and click delete')
     def click_delete(self, index: int):
+        """
+        Expands the course menu and clicks the 'Delete' option.
+        
+        Args:
+            index: The zero-based index of the course in the list.
+        """
         self.menu_button.click(nth=index)
         self.delete_menu_item.check_visible(nth=index)
         self.delete_menu_item.click(nth=index)

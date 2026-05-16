@@ -9,6 +9,12 @@ from pages.base_page import BasePage
 
 
 class LoginPage(BasePage):
+    """
+    Page object representing the authentication/login page.
+    
+    Encapsulates all actions and elements available to the user before logging in.
+    """
+    
     def __init__(self, page: Page):
         super().__init__(page)
 
@@ -19,14 +25,25 @@ class LoginPage(BasePage):
             page, 'login-page-wrong-email-or-password-alert', 'Wrong email or password'
         )
 
+    @allure.step("Click login button")
     def click_login_button(self):
+        """
+        Submits the login form.
+        """
         self.login_button.click()
 
+    @allure.step("Click registration link")
     def click_registration_link(self):
+        """
+        Navigates to the registration page via the provided link.
+        """
         self.registration_link.click()
         self.check_current_url(re.compile(".*/#/auth/registration"))
 
     @allure.step("Check visible wrong email or password alert")
     def check_visible_wrong_email_or_password_alert(self):
+        """
+        Asserts that the 'Wrong email or password' error message is visible.
+        """
         self.wrong_email_or_password_alert.check_visible()
         self.wrong_email_or_password_alert.check_have_text('Wrong email or password')

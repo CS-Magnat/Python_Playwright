@@ -22,15 +22,28 @@ from tools.routes import AppRoute
 @allure.suite(AllureFeature.AUTHENTICATION)
 @allure.sub_suite(AllureStory.AUTHORIZATION)
 class TestAuthorization:
+    """
+    Test suite for user authorization and login flows.
+    """
+    
     @pytest.mark.parametrize("email, password", [("user.name@gmail.com", "password"), ("user.name@gmail.com", "  "), ("  ", "password")])
     @allure.title("User login with wrong email or password")
     @allure.tag(AllureTag.USER_LOGIN)
     @allure.severity(Severity.CRITICAL)
     def test_wrong_email_or_password_authorization(self, login_page: LoginPage, email: str, password: str):
+        """
+        Verifies that login fails with an appropriate alert when invalid 
+        combinations of email and password are provided.
+        """
+        # Arrange: Navigate to the login page
         login_page.visit(AppRoute.LOGIN)
+        
+        # Act: Fill and submit the login form with invalid credentials
         login_page.login_form.fill(email=email, password=password)
         login_page.login_form.check_visible(email=email, password=password)
         login_page.click_login_button()
+        
+        # Assert: Verify that the wrong credentials alert is visible
         login_page.check_visible_wrong_email_or_password_alert()
 
 
@@ -38,15 +51,24 @@ class TestAuthorization:
     @allure.title("User login with correct email and password")
     @allure.severity(Severity.BLOCKER)
     def test_successful_authorization(self, login_page: LoginPage, dashboard_page: DashboardPage, registration_page: RegistrationPage):
+        """
+        Verifies the full end-to-end authorization flow: user registration, logout, 
+        and successful login with the newly created credentials.
+        """
+        # Arrange: Register a new user first
         registration_page.visit(AppRoute.REGISTRATION)
         registration_page.registration_form.fill(email=settings.test_user.email, username=settings.test_user.username, password=settings.test_user.password)
         registration_page.click_registration_button()
         dashboard_page.dashboard_toolbar_view.check_visible()
         dashboard_page.navbar.check_visible(settings.test_user.username)
         dashboard_page.sidebar.check_visible()
+        
+        # Act: Logout and then login again with the same credentials
         dashboard_page.sidebar.click_logout()
         login_page.login_form.fill(email=settings.test_user.email, password=settings.test_user.password)
         login_page.click_login_button()
+        
+        # Assert: Verify successful login by checking dashboard elements
         dashboard_page.dashboard_toolbar_view.check_visible()
         dashboard_page.navbar.check_visible(settings.test_user.username)
         dashboard_page.sidebar.check_visible()
@@ -59,7 +81,15 @@ class TestAuthorization:
             login_page: LoginPage,
             registration_page: RegistrationPage
     ):
+        """
+        Verifies that clicking the registration link on the login page 
+        navigates the user to the correct registration form.
+        """
+        # Arrange: Navigate to the login page
         login_page.visit(AppRoute.LOGIN)
+        
+        # Act: Click on the registration link
         login_page.click_registration_link()
 
+        # Assert: Verify the registration form is visible and empty
         registration_page.registration_form.check_visible(email="", username="", password="")

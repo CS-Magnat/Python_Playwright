@@ -7,6 +7,13 @@ from pages.base_page import BasePage
 
 
 class DashboardPage(BasePage):
+    """
+    Page object representing the main application dashboard.
+    
+    Provides access to the layout components including the sidebar, navbar, 
+    toolbar, and the various statistical chart views.
+    """
+    
     def __init__(self, page: Page):
         super().__init__(page)
 

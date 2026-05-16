@@ -11,6 +11,19 @@ def initialize_playwright_page(
         browser_type: Browser,
         storage_state: str | None = None
 ) -> Page:
+    """
+    Initializes and returns a new Playwright Page configured for a specific test.
+    
+    Sets up the browser context with tracing enabled (screenshots, snapshots, sources),
+    mocks static resources to speed up tests, and automatically attaches trace and 
+    video files to the Allure report upon completion.
+    
+    Args:
+        playwright: The active Playwright instance.
+        test_name: Name of the test, used for naming trace files.
+        browser_type: The browser engine to launch (e.g., chromium, webkit).
+        storage_state: Optional path to a file containing cookies/local storage.
+    """
     browser = playwright[browser_type].launch(headless=settings.headless)
     context = browser.new_context(base_url=settings.get_base_url(), storage_state=storage_state, record_video_dir=settings.videos_dir)
     context.tracing.start(screenshots=True, snapshots=True, sources=True)

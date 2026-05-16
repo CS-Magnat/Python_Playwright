@@ -9,6 +9,13 @@ from pages.base_page import BasePage
 
 
 class CreateCoursePage(BasePage):
+    """
+    Page object representing the course creation and editing interface.
+    
+    Provides access to form elements, toolbars, image upload widgets, 
+    and exercise management components required to create a new course.
+    """
+    
     def __init__(self, page: Page):
         super().__init__(page)
 
@@ -20,6 +27,10 @@ class CreateCoursePage(BasePage):
         self.create_course_exercises_toolbar_view = CreateCourseExercisesToolbarViewComponent(page)
 
     def check_visible_exercises_empty_view(self):
+        """
+        Asserts that the empty state is displayed for the exercises list,
+        indicating that no exercises have been added to the course yet.
+        """
         self.exercises_empty_view.check_visible(
             title='There is no exercises',
             description='Click on "Create exercise" button to create new exercise'

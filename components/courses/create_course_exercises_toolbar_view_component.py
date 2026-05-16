@@ -6,6 +6,11 @@ from elements.text import Text
 
 
 class CreateCourseExercisesToolbarViewComponent(BaseComponent):
+    """
+    Component representing the toolbar specifically for managing course exercises.
+    
+    Provides access to the "Create exercise" button and its title.
+    """
     def __init__(self, page: Page):
         super().__init__(page)
 
@@ -14,11 +19,15 @@ class CreateCourseExercisesToolbarViewComponent(BaseComponent):
 
     @allure.step("Check visible create course exercises toolbar")
     def check_visible(self):
+        """
+        Asserts that the exercises toolbar title and 'Create exercise' button are visible.
+        """
         self.exercises_title.check_visible()
         self.exercises_title.check_have_text('Exercises')
         self.create_exercise_button.check_visible()
 
     def click_create_exercise_button(self):
+        """Clicks the button to add a new exercise form to the course."""
         self.create_exercise_button.click()
 
 

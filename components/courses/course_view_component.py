@@ -7,6 +7,12 @@ from elements.text import Text
 
 
 class CourseViewComponent(BaseComponent):
+    """
+    Component representing a single course card view in the courses list.
+    
+    Provides methods to verify the rendering of course details such as title, scores, and estimated time.
+    """
+    
     def __init__(self, page: Page):
         super().__init__(page)
 
@@ -20,6 +26,16 @@ class CourseViewComponent(BaseComponent):
 
     @allure.step('Check visible course view at index "{index}"')
     def check_visible(self, index: int, title: str, max_score: str, min_score: str, estimated_time: str):
+        """
+        Asserts that a specific course card is fully visible and contains the expected data.
+        
+        Args:
+            index: Zero-based index of the course card in the list.
+            title: Expected course title.
+            max_score: Expected maximum score.
+            min_score: Expected minimum score.
+            estimated_time: Expected estimated completion time.
+        """
         self.image.check_visible(nth=index)
         self.title.check_visible(nth=index)
         self.title.check_have_text(title, nth=index)

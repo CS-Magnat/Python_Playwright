@@ -21,27 +21,46 @@ from tools.routes import AppRoute
 @allure.suite(AllureFeature.AUTHENTICATION)
 @allure.sub_suite(AllureStory.AUTHORIZATION)
 class TestCourses:
+    """
+    Test suite for course management functionalities including viewing, creating, and editing courses.
+    """
+
     @allure.title("Check displaying of empty courses list")
     @allure.severity(Severity.NORMAL)
     def test_empty_courses_list(self, courses_list_page: CoursesListPage):
+        """
+        Verifies that an empty state view is properly displayed when the user has no courses.
+        """
+        # Arrange: Navigate to the courses list page
         courses_list_page.visit(AppRoute.COURSES)
+        
+        # Act & Assert: Check visibility of standard navigation components
         courses_list_page.sidebar.check_visible()
         courses_list_page.navbar.check_visible("username")
         courses_list_page.toolbar_view.check_visible()
+        
+        # Assert: Verify that the empty view placeholder is shown
         courses_list_page.check_visible_empty_view()
 
 
-    @pytest.mark.regression
-    @pytest.mark.courses
     @allure.title("Create course")
     @allure.severity(Severity.CRITICAL)
     def test_create_course(self, chromium_page_with_state, create_course_page, courses_list_page):
+        """
+        Verifies that a new course can be successfully created with all required details
+        and an uploaded cover image.
+        """
+        # Arrange: Navigate to the course creation page
         chromium_page_with_state.goto(AppRoute.COURSES_CREATE)
+        
+        # Assert: Check initial empty/disabled state of the creation form
         create_course_page.create_course_toolbar_view.check_visible(is_create_course_disabled=True)
         create_course_page.image_upload_widget.check_visible(is_image_uploaded=False)
         create_course_page.create_course_form.check_visible(title="", description="", estimated_time="", max_score="0", min_score="0")
         create_course_page.create_course_exercises_toolbar_view.check_visible()
         create_course_page.check_visible_exercises_empty_view()
+        
+        # Act: Upload an image and fill out the course details
         create_course_page.image_upload_widget.upload_preview_image(settings.test_data.image_png_file)
         create_course_page.image_upload_widget.check_visible(is_image_uploaded=True)
         create_course_page.create_course_form.fill(
@@ -52,6 +71,8 @@ class TestCourses:
             min_score = "10"
         )
         create_course_page.create_course_toolbar_view.click_create_course_button()
+        
+        # Assert: Verify the user is redirected to the list and the new course is displayed
         courses_list_page.toolbar_view.check_visible()
         courses_list_page.course_view.check_visible(
             index=0,
@@ -65,6 +86,10 @@ class TestCourses:
     @allure.title("Edit course")
     @allure.severity(Severity.CRITICAL)
     def test_edit_course(self, create_course_page: CreateCoursePage, courses_list_page: CoursesListPage):
+        """
+        Verifies that an existing course can be edited and the changes are correctly saved and displayed.
+        """
+        # Arrange: Create a course as a prerequisite
         create_course_page.visit(AppRoute.COURSES_CREATE)
         create_course_page.create_course_form.fill(
             title="Playwright",
@@ -83,6 +108,8 @@ class TestCourses:
             min_score="10",
             estimated_time="2 weeks"
         )
+        
+        # Act: Open the edit menu for the created course and submit new details
         courses_list_page.course_view.menu.click_edit(index=0)
         create_course_page.create_course_form.fill(
             title="Playwright Edited",
@@ -101,6 +128,8 @@ class TestCourses:
             estimated_time="20 weeks"
         )
         create_course_page.create_course_toolbar_view.click_create_course_button()
+        
+        # Assert: Verify the course card now reflects the updated information
         courses_list_page.course_view.check_visible(
             index=0,
             title="Playwright Edited",
@@ -108,7 +137,3 @@ class TestCourses:
             min_score="100",
             estimated_time="20 weeks"
         )
-
-
-
-

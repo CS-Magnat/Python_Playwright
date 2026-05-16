@@ -9,6 +9,11 @@ from elements.text import Text
 
 
 class ImageUploadWidgetComponent(BaseComponent):
+    """
+    Component representing the image upload widget, typically used for cover images.
+    
+    Handles file inputs, preview rendering, and removal of uploaded images.
+    """
     def __init__(self, page: Page, identifier: str):
         super().__init__(page)
 
@@ -22,6 +27,13 @@ class ImageUploadWidgetComponent(BaseComponent):
         self.upload_input = FileInput(page,f'{identifier}-image-upload-widget-input', 'upload-widget-input')
 
     def check_visible(self, is_image_uploaded: bool = False):
+        """
+        Asserts the visibility of the upload widget based on its current state.
+        
+        Args:
+            is_image_uploaded: If True, checks for the presence of the preview image and remove button.
+                               If False, checks for the empty state placeholder.
+        """
         self.image_upload_info_icon.check_visible()
         self.image_upload_info_title.check_visible()
         self.image_upload_info_title.check_have_text(
@@ -42,7 +54,11 @@ class ImageUploadWidgetComponent(BaseComponent):
             )
 
     def click_remove_image_button(self):
+        """Clicks the button to remove the currently uploaded image."""
         self.remove_button.click()
 
     def upload_preview_image(self, file: str):
+        """
+        Uploads a file by setting its path to the hidden file input element.
+        """
         self.upload_input.set_input_files(file)

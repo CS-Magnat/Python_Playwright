@@ -6,6 +6,11 @@ from elements.text import Text
 
 
 class EmptyViewComponent(BaseComponent):
+    """
+    Component representing a placeholder state when there is no data to display.
+    
+    Commonly used in lists, tables, or image previews to indicate an empty state.
+    """
     def __init__(self, page: Page, identifier: str):
         super().__init__(page)
 
@@ -15,6 +20,9 @@ class EmptyViewComponent(BaseComponent):
 
     @allure.step('Check visible empty view "{title}"')
     def check_visible(self, title: str, description: str):
+        """
+        Asserts that the empty view icon, title, and description are properly displayed.
+        """
         self.icon.check_visible()
         self.title.check_visible()
         self.title.check_have_text(title)

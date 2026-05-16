@@ -6,22 +6,31 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Browser(str, Enum):
+    """Supported browsers for test execution."""
     WEBKIT = "webkit"
     FIREFOX = "firefox"
     CHROMIUM = "chromium"
 
 
 class TestUser(BaseModel):
+    """Model representing a test user's credentials."""
     email: EmailStr
     username: str
     password: str
 
 
 class TestData(BaseModel):
+    """Model for managing test data file paths."""
     image_png_file: FilePath
 
 
 class Settings(BaseSettings):
+    """
+    Global configuration settings for the test framework.
+    
+    Settings are automatically populated from a .env file and default values.
+    Provides directories setup for videos, tracing, and allure results.
+    """
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
@@ -37,8 +46,13 @@ class Settings(BaseSettings):
     tracing_dir: DirectoryPath
     browser_state_file: FilePath
     allure_results_dir: DirectoryPath
+    
     @classmethod
     def initialize(cls) -> Self:
+        """
+        Initializes the configuration and creates required output directories 
+        (videos, tracing, allure-results) if they do not exist.
+        """
         videos_dir = DirectoryPath("./videos")
         tracing_dir = DirectoryPath("./tracing")
         allure_results_dir = DirectoryPath("./allure-results")
@@ -57,6 +71,7 @@ class Settings(BaseSettings):
         )
 
     def get_base_url(self) -> str:
+        """Returns the formatted base URL of the application."""
         return f"{self.app_url}/"
 
 settings = Settings.initialize()

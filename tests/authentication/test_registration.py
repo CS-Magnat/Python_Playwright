@@ -21,11 +21,24 @@ from tools.routes import AppRoute
 @allure.suite(AllureFeature.AUTHENTICATION)
 @allure.sub_suite(AllureStory.AUTHORIZATION)
 class TestRegistration:
+    """
+    Test suite for user registration flows.
+    """
+
     @allure.title("Registration with correct email, username and password")
     @allure.severity(Severity.CRITICAL)
     def test_successful_registration(self, registration_page: RegistrationPage, dashboard_page: DashboardPage):
+        """
+        Verifies that a new user can successfully register using valid credentials 
+        and is subsequently redirected to the dashboard.
+        """
+        # Arrange: Navigate to the registration page
         registration_page.visit(AppRoute.REGISTRATION)
+        
+        # Act: Fill out the registration form with valid data and submit
         registration_page.registration_form.fill(username=settings.test_user.username, email=settings.test_user.email, password=settings.test_user.password)
         registration_page.registration_form.check_visible(username=settings.test_user.username, email=settings.test_user.email, password=settings.test_user.password)
         registration_page.click_registration_button()
+        
+        # Assert: Verify the user is redirected to the dashboard and it is visible
         dashboard_page.dashboard_toolbar_view.check_visible()
