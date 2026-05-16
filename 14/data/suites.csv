@@ -1,0 +1,39 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"
+Verifies that an existing course can be edited and the changes are correctly saved and displayed.
+","3769","Edit course","LMS system","Sat May 16 06:24:21 UTC 2026","passed","Sat May 16 06:24:25 UTC 2026","Authorization","Authentication","",""
+"
+Verifies the full end-to-end authorization flow: user registration, logout, 
+and successful login with the newly created credentials.
+","2670","User login with correct email and password","LMS system","Sat May 16 06:24:14 UTC 2026","passed","Sat May 16 06:24:17 UTC 2026","Authorization","Authentication","",""
+"
+Verifies that login fails with an appropriate alert when invalid 
+combinations of email and password are provided.
+","1549","User login with wrong email or password","LMS system","Sat May 16 06:24:14 UTC 2026","passed","Sat May 16 06:24:16 UTC 2026","Authorization","Authentication","",""
+"
+Verifies that login fails with an appropriate alert when invalid 
+combinations of email and password are provided.
+","1598","User login with wrong email or password","LMS system","Sat May 16 06:24:12 UTC 2026","passed","Sat May 16 06:24:14 UTC 2026","Authorization","Authentication","",""
+"
+Verifies that a new user can successfully register using valid credentials 
+and is subsequently redirected to the dashboard.
+","1474","Registration with correct email, username and password","LMS system","Sat May 16 06:24:17 UTC 2026","passed","Sat May 16 06:24:19 UTC 2026","Authorization","Authentication","",""
+"
+Verifies that an empty state view is properly displayed when the user has no courses.
+","1254","Check displaying of empty courses list","LMS system","Sat May 16 06:24:19 UTC 2026","passed","Sat May 16 06:24:20 UTC 2026","Authorization","Authentication","",""
+"
+Verifies that all main components of the dashboard page are rendered correctly 
+for an authenticated user.
+","2074","Check displaying of dashboard page","LMS system","Sat May 16 06:24:22 UTC 2026","passed","Sat May 16 06:24:25 UTC 2026","Authorization","Authentication","",""
+"
+Verifies that a new course can be successfully created with all required details
+and an uploaded cover image.
+","1697","Create course","LMS system","Sat May 16 06:24:20 UTC 2026","passed","Sat May 16 06:24:22 UTC 2026","Authorization","Authentication","",""
+"
+Verifies that clicking the registration link on the login page 
+navigates the user to the correct registration form.
+","1488","Navigation from login page to registration page","LMS system","Sat May 16 06:24:16 UTC 2026","passed","Sat May 16 06:24:18 UTC 2026","Authorization","Authentication","",""
+"
+Verifies that login fails with an appropriate alert when invalid 
+combinations of email and password are provided.
+","1654","User login with wrong email or password","LMS system","Sat May 16 06:24:12 UTC 2026","passed","Sat May 16 06:24:14 UTC 2026","Authorization","Authentication","",""
